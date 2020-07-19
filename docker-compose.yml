@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  antigens_portal:
+    image: "iliyanmihaylov/tumor_antigens_portal:latest"
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "4981:8080"
+    links:
+      - backend
+  antigens_db:
+    image: "iliyanmihaylov/tumor_antigens_db:latest"
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "4982:8080"
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: antigens
+      MONGO_INITDB_ROOT_USERNAME: iliyan
+      MONGO_INITDB_ROOT_PASSWORD: 1qaz@WSX
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
